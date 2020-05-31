@@ -1,5 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  TextInput,
+  Alert,
+} from "react-native";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -27,14 +34,25 @@ const styles = StyleSheet.create({
   text: {
     color: "#FFF",
     fontFamily: "Nunito-Regular",
-    padding: "5%",
+    padding: "4%",
     fontSize: 24,
+  },
+  textInput: {
+    height: 40,
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "transparent",
+    marginRight: "5%",
+    marginLeft: "5%",
+    paddingLeft: "2%",
   },
 });
 
-export default class InitialPage extends Component {
+export default class UserLogin extends Component {
   state = {
     fontsLoaded: false,
+    username: "",
   };
   async _loadFontsAsync() {
     await Font.loadAsync(customFonts);
@@ -45,8 +63,30 @@ export default class InitialPage extends Component {
     await this._loadFontsAsync();
   }
 
+  onChangeText = (username) => {
+    this.setState({ username });
+  };
+
+  createAlert = () => {
+    return Alert.alert(
+      "Invalid username",
+      "The username require at least 3 characters!",
+      [{ text: "OK" }],
+      {
+        cancelable: false,
+      }
+    );
+  };
+
   redirectPage = () => {
-    this.props.navigation.navigate("Introduction");
+    const { username } = this.state;
+    if (username !== undefined && username !== "" && username.length > 3) {
+      this.props.navigation.navigate("Feelings", {
+        username: this.state.username,
+      });
+    } else {
+      this.createAlert();
+    }
   };
 
   render() {
@@ -54,18 +94,16 @@ export default class InitialPage extends Component {
       <View style={styles.container}>
         {this.state.fontsLoaded ? (
           <Fragment>
+            <Text style={styles.title}>First Step!</Text>
             <View>
-              <Text style={styles.title}>Welcome to Arara!</Text>
               <Text style={styles.text}>
-                An app to help you in this hard time that we are living! Social
-                isolation doesn't seems to be hard, but it is! Human beings need
-                to comunicate and made connection.
+                Which username do you want to use?
               </Text>
-              <Text style={styles.text}>
-                Our app is here to help you to communicate with other people in
-                this complicated period. We have several activities where you
-                can expose your interior.
-              </Text>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={(text) => this.onChangeText(text)}
+                value={this.state.username}
+              />
             </View>
             <TouchableHighlight onPress={() => this.redirectPage()}>
               <AntDesign name="caretright" size={50} color="white" />

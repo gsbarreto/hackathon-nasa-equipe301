@@ -27,12 +27,13 @@ const styles = StyleSheet.create({
   text: {
     color: "#FFF",
     fontFamily: "Nunito-Regular",
-    padding: "5%",
+    textAlign: "center",
+    padding: "4%",
     fontSize: 24,
   },
 });
 
-export default class InitialPage extends Component {
+export default class IntroductionPage extends Component {
   state = {
     fontsLoaded: false,
   };
@@ -46,7 +47,7 @@ export default class InitialPage extends Component {
   }
 
   redirectPage = () => {
-    this.props.navigation.navigate("Introduction");
+    this.props.navigation.navigate("User");
   };
 
   render() {
@@ -55,16 +56,34 @@ export default class InitialPage extends Component {
         {this.state.fontsLoaded ? (
           <Fragment>
             <View>
-              <Text style={styles.title}>Welcome to Arara!</Text>
+              <Text style={styles.title}>We are here to help!</Text>
+              <AntDesign
+                name="Safety"
+                size={54}
+                color="white"
+                style={{ alignSelf: "center", paddingTop: "5%" }}
+              />
               <Text style={styles.text}>
-                An app to help you in this hard time that we are living! Social
-                isolation doesn't seems to be hard, but it is! Human beings need
-                to comunicate and made connection.
+                Create an anonymous user to keep you privacy!
               </Text>
+
+              <AntDesign
+                name="form"
+                size={54}
+                color="white"
+                style={{ alignSelf: "center", paddingTop: "5%" }}
+              />
               <Text style={styles.text}>
-                Our app is here to help you to communicate with other people in
-                this complicated period. We have several activities where you
-                can expose your interior.
+                Fill the form to help us to know your feelings!
+              </Text>
+              <AntDesign
+                name="retweet"
+                size={54}
+                color="white"
+                style={{ alignSelf: "center", paddingTop: "5%" }}
+              />
+              <Text style={styles.text}>
+                Connect and chat with other people!
               </Text>
             </View>
             <TouchableHighlight onPress={() => this.redirectPage()}>
